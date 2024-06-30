@@ -3,3 +3,7 @@ resources:
 
 patches:
   - path: replica-count.yaml
+
+
+# patchesStrategicMerge:
+#   - replica-count.yaml

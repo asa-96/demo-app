@@ -11,9 +11,6 @@ spec:
             namespace: dev
             overlay: dev
           - cluster: https://kubernetes.default.svc
-            namespace: staging
-            overlay: staging
-          - cluster: https://kubernetes.default.svc
             namespace: prod
             overlay: prod
   template:
