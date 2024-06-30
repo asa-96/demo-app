@@ -1,0 +1,36 @@
+apiVersion: argoproj.io/v1alpha1
+kind: ApplicationSet
+metadata:
+  name: nginx-applicationset
+  namespace: argocd
+spec:
+  generators:
+    - list:
+        elements:
+          - cluster: https://kubernetes.default.svc
+            namespace: dev
+            overlay: dev
+          - cluster: https://kubernetes.default.svc
+            namespace: staging
+            overlay: staging
+          - cluster: https://kubernetes.default.svc
+            namespace: prod
+            overlay: prod
+  template:
+    metadata:
+      name: '{{namespace}}-nginx'
+    spec:
+      project: default
+      source:
+        repoURL: 'https://github.com/asa-96/demo-app.git'
+        targetRevision: HEAD
+        path: 'overlays/{{overlay}}'
+      destination:
+        server: '{{cluster}}'
+        namespace: '{{namespace}}'
+      syncPolicy:
+        automated:
+          prune: true
+          selfHeal: true
+        syncOptions:
+          - CreateNamespace=true
